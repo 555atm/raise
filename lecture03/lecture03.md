@@ -6,7 +6,7 @@
 - APサーバーの名前：puma
 - APサーバーのバージョン：5.6.5
 -  　↑ エビデンスは『kadai3\_evidence01\_appsv-ver.jpg』です
--  　↑ エビデンスは[kadai3\_evidence01\_appsv-ver.jpg](.kadai3\_evidence01\_appsv-ver.jpg)です
+-  　↑ エビデンスは[kadai3\_evidence01\_appsv-ver.jpg](./kadai3\_evidence01\_appsv-ver.jpg)です
 
 ## APサーバーを終了させた場合、引き続きアクセスできますか？結果を確認して、また APサーバーを起動してください。
 - 終了させた場合：アクセスできない
