@@ -13,7 +13,7 @@
 #VPC設定
 [kadai4evi-vpc-private1.jpg](./kadai4evi-vpc-private1.jpg)
 
-[kadai4evi-vpc-public1.jpg](./)
+[kadai4evi-vpc-public1.jpg](./kadai4evi-vpc-public1.jpg)
 
 
 #EC2(=WEBサーバ)の設定 
