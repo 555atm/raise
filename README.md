@@ -1,8 +1,8 @@
 # Raisetechのmd
 
-| 講義番号 | 勉強概要 | 詳細 |  
-| :--- |  ---: |  |  
-|lecture01|AWS初期設定、IAM の推奨設定|  |  
+| 講義番号 | 勉強概要 | 詳細 |
+| :--- | :--- | :--- |
+|lecture01 |AWS初期設定、IAM の推奨設定|  |  
 |lecture02|バージョン管理システム|  |  
 |lecture03|Cloud9、Webアプリケーション構築|  |  
 |lecture04|EC2＋RDS構築|  |  
