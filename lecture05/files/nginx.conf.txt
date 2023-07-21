@@ -1,8 +1,9 @@
+[ec2-user@ip-10-0-14-149 raisetech-live8-sample-app]$ cat /etc/nginx/nginx.conf
 # For more information on configuration, see:
 #   * Official English Documentation: http://nginx.org/en/docs/
 #   * Official Russian Documentation: http://nginx.org/ru/docs/
 
-user ec2-user;
+user nginx;
 worker_processes auto;
 error_log /var/log/nginx/error.log;
 pid /run/nginx.pid;
@@ -35,28 +36,14 @@ http {
     # for more information.
     include /etc/nginx/conf.d/*.conf;
 
-    upstream raisetech-live9-sample-app {
-        server unix:/var/www/raisetech-live8-sample-app/tmp/sockets/unicorn.sock;
-	}
-   
-
     server {
         listen       80;
         listen       [::]:80;
-        server_name  13.230.243.214;
-        root         /var/www/raisetech-live8-sample-app/public;
-
-	try_files @uri/index.html $uri @raisetech-live8-sample-app; 
-
-        location @unicorn {
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header Host $http_host;
-            proxy_pass http://unicorn;
-        }
+        server_name  _;
+        root         /usr/share/nginx/html;
 
         # Load configuration files for the default server block.
-        # include /etc/nginx/default.d/*.conf;
+        include /etc/nginx/default.d/*.conf;
 
         error_page 404 /404.html;
         location = /404.html {
@@ -95,4 +82,3 @@ http {
 #    }
 
 }
-
