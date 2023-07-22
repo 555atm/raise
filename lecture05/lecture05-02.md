@@ -3,13 +3,12 @@
 - ここまでで、EC2単体でのサンプルアプリ表示は完了している。  
 ここからさらに、ALB、S3を構成に加える。
 
-
 ## ALB用の設定
 　※今回はまだインスタンス１台でまず構成。
 　※よってAutoScalingもまだ設定しない。
 
 - development.rbにconfig.host行を追記	
-> config.hosts << "raise-alb1-47580882.ap-northeast-1.elb.amazonaws.com"	
+> config.hosts << "raise-alb1-47580882.ap-northeast-1.elb.amazonaws.com"  
 
 - ALB設定を以下画像のとおりに実装。  
 
@@ -41,8 +40,6 @@
 
 ▼ALB経由でサンプルアプリの画面が表示できた
 ![alb-result.png](./files/alb-result.png)
-
-
 
 ## S3設定
 
@@ -185,7 +182,7 @@ config.active_storage.service = :local     ←←←この、local の部分を 
 
 ## 今回の課題で学んだこと
 - nginx + unicornの設定方法に苦戦した。
-  が、本番向けリバプロ＋WEBサーバの組み合わせを実装できたのは、
+  が、本番向けリバプロ＋WEBサーバの組み合わせを実装できたのは、  
   現場でも活かせる素晴らしい経験になると感じた。
 - DB内データの画像の実態をS3に保存させる仕組み・構成要素はこうなっているのか！と感動した。  
 　S3アクセス権限をアプリに与える仕組みが理解できた。
