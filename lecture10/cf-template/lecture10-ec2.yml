@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: EC2-template
+Resources:
+  CFnKeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: CFnKeyPair
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName: !Ref CFnKeyPair
+      DisableApiTermination: false
+      ImageId: ami-0ffac3e16de16665e
+      InstanceType: t2.micro
+      Monitoring: false
+      AvailabilityZone: !Sub ${AWS::Region}a
+      SubnetId: !ImportValue raise-lecture10-publicSubnet1a-id
+      SecurityGroupIds:
+        - !Ref EC2Sg
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeType: gp2
+            DeleteOnTermination: true
+            VolumeSize: 16
+      Tags:
+        - Key: Name
+          Value: raise-lecture10-ec2
+  EC2Sg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: connect with ssh and webservice
+      VpcId: !ImportValue raise-lecture10-vpc-id
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 106.154.150.249/32
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 3000
+          ToPort: 3000
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: raise-lecture10-sg-ec2
+Outputs:
+    EC2Outpput:
+        Description: EC2 ID
+        Value: !Ref EC2Instance
+        Export:
+            Name: raise-lecture10-ec2-id
+    EC2SgOutput:
+        Description: EC2Sg ID
+        Value: !Ref EC2Sg
+        Export:
+            Name: raise-lecture10-sg-ec2-id

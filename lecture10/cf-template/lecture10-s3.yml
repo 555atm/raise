@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: S3 Bucket template
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: raise-lecture10-s3
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+
+  VPCS3Endpoint:
+    Type: "AWS::EC2::VPCEndpoint"
+    Properties:
+      RouteTableIds:
+        - !ImportValue raise-lecture10-PrivateRouteTable-id
+      ServiceName: !Sub "com.amazonaws.${AWS::Region}.s3"
+      VpcEndpointType: Gateway
+      VpcId: !ImportValue raise-lecture10-vpc-id
+
+Outputs:
+  S3Bucketoutput:
+    Value: !Ref S3Bucket
+    Export:
+      Name: raise-lecture10-s3-id
