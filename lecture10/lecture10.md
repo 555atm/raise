@@ -1,5 +1,6 @@
 # 第10回　課題
 
+## 事前考察
 まず、  
 第５回で手動構築したAWSリソースを  
 ClowdFormation用テンプレートにエクスポートできたら  
@@ -21,15 +22,29 @@ ClowdFormation用テンプレートにエクスポートできたら
 よって  
 諦めてネットで探したテンプレートを元にClowdFormationテンプレートを作った。
 
+スタック作成完了
+![stacks-create-complete.png](./files/stacks-create-complete.png)
+
 以下のスタック名で作った。  
 stack-lecture10-vpc  
 stack-lecture10-ec2  
 stack-lecture10-rds  
 stack-lecture10-s3  
 
-スタック作成完了
-![stacks-create-complete.png](./files/stacks-create-complete.png)
 
+
+↓　stack-lecture10-vpcで作成されたリソース
+![stack-resource-vpc.png](./files/stack-resource-vpc.png)
+
+↓　stack-lecture10-ec2で作成されたリソース
+![stack-resource-ec2.png](./files/stack-resource-ec2.png)
+
+↓　stack-lecture10-rdsで作成されたリソース
+![stack-resource-rds.png](./files/stack-resource-rds.png)
+
+↓　stack-lecture10-s3で作成されたリソース
+![stack-resource-s3.png](./files/stack-resource-s3.png)
+## 動作確認
 なおEC2上でRailsアプリが動くようにするのはこの先の別の課題で   
 Ansible使って実施するらしいので、ここでは実施しない。
 
@@ -40,7 +55,7 @@ Ansible使って実施するらしいので、ここでは実施しない。
 　（Railsアプリ動かないからRDS・S3のアプリ的な確認はできない。）
 　（RDSにデータベース作成してないからmysqlログインも）
 
-## EC2にSSHできるかどうかの確認
+### EC2にSSH接続できるかどうかの確認
 世の多くの人がEC2のキーペアを以下のテンプレート記述で作成しているみたいだったので、  
 よくわからないが真似してみた。  
 ~~~
@@ -71,6 +86,7 @@ chmod 600 xx-keypair.pem
 EC2にSSHできた。  
 ![ssh-to-ec2.png](./files/ssh-to-ec2.png)
 
+### RDSにSSH接続できるかどうかの確認
 RDSにもポートフォワーディングでSSHできた
 ![ssh-to-rds-with-port-fowarding.png](./files/ssh-to-rds-with-port-fowarding.png)
 

@@ -5,7 +5,6 @@ Parameters:
     Default: 226651temPra
     Type: String
     NoEcho: true
-
 Resources:
   RDS:
     DeletionPolicy: Delete
@@ -34,7 +33,6 @@ Resources:
       Tags:
       - Key: Name
         Value: raise-lecture10-rds
-
   sgrds:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -49,7 +47,6 @@ Resources:
       Tags:
         - Key: Name
           Value: raise-lecture10-sg-rds
-
   RDSSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
@@ -61,7 +58,6 @@ Resources:
       Tags:
       - Key: Name
         Value: raise-lecture10-rds-subnet-group
-
 Outputs:
     RDSoutput:
         Value: !Ref RDS

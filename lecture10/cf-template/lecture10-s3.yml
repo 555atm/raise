@@ -11,7 +11,6 @@ Resources:
         BlockPublicPolicy: True
         IgnorePublicAcls: True
         RestrictPublicBuckets: True
-
   VPCS3Endpoint:
     Type: "AWS::EC2::VPCEndpoint"
     Properties:
@@ -20,7 +19,6 @@ Resources:
       ServiceName: !Sub "com.amazonaws.${AWS::Region}.s3"
       VpcEndpointType: Gateway
       VpcId: !ImportValue raise-lecture10-vpc-id
-
 Outputs:
   S3Bucketoutput:
     Value: !Ref S3Bucket

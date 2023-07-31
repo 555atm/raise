@@ -1,6 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: VPC-template
-
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -12,7 +11,6 @@ Resources:
         Tags:
           - Key: Name
             Value: raise-lecture10-vpc
-
   InternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
@@ -24,7 +22,6 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       InternetGatewayId: !Ref InternetGateway
-
   PublicSubnet1a:
     Type: AWS::EC2::Subnet
     Properties:
@@ -35,7 +32,6 @@ Resources:
       Tags:
         - Key: Name
           Value: raise-lecture10-public-subnet1a
-
   PublicSubnet1c:
     Type: AWS::EC2::Subnet
     Properties:
@@ -46,7 +42,6 @@ Resources:
       Tags:
         - Key: Name
           Value: raise-lecture10-public-subnet1c
-
   PrivateSubnet1a:
     Type: AWS::EC2::Subnet
     Properties:
@@ -57,7 +52,6 @@ Resources:
       Tags:
         - Key: Name
           Value: raise-lecture10-private-subnet1a
-
   PrivateSubnet1c:
     Type: AWS::EC2::Subnet
     Properties:
@@ -68,7 +62,6 @@ Resources:
       Tags:
         - Key: Name
           Value: raise-lecture10-private-subnet1c
-
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -89,31 +82,26 @@ Resources:
       Tags:
         - Key: Name
           Value: raise-lecture10-private-rtb
-
   PublicSubnet1aRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnet1a
-
   PublicSubnet1cRouteTableAssociation:
     Type: "AWS::EC2::SubnetRouteTableAssociation"
     Properties:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnet1c
-
   PrivateSubnet1aRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId: !Ref PrivateRouteTable
       SubnetId: !Ref PrivateSubnet1a
-
   PrivateSubnet1cRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId: !Ref PrivateRouteTable
       SubnetId: !Ref PrivateSubnet1c
-
 Outputs:
     VPCoutput:
         Value: !Ref VPC
@@ -143,38 +131,3 @@ Outputs:
         Value: !Ref PrivateRouteTable
         Export:
             Name: raise-lecture10-PrivateRouteTable-id
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
