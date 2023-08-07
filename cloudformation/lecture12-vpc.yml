@@ -1,0 +1,133 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: VPC-template
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+        CidrBlock: 10.0.0.0/16
+        EnableDnsSupport: true
+        EnableDnsHostnames: true
+        InstanceTenancy: default
+        Tags:
+          - Key: Name
+            Value: raise-lecture10-vpc
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: raise-lecture10-igw
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+  PublicSubnet1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Sub ${AWS::Region}a
+      CidrBlock: 10.0.0.0/20
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: raise-lecture10-public-subnet1a
+  PublicSubnet1c:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Sub ${AWS::Region}c
+      CidrBlock: 10.0.16.0/20
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: raise-lecture10-public-subnet1c
+  PrivateSubnet1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Sub ${AWS::Region}a
+      CidrBlock: 10.0.128.0/20
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: raise-lecture10-private-subnet1a
+  PrivateSubnet1c:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Sub ${AWS::Region}c
+      CidrBlock: 10.0.144.0/20
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: raise-lecture10-private-subnet1c
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: raise-lecture10-public-rtb
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+  PrivateRouteTable :
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: raise-lecture10-private-rtb
+  PublicSubnet1aRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet1a
+  PublicSubnet1cRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet1c
+  PrivateSubnet1aRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet1a
+  PrivateSubnet1cRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet1c
+Outputs:
+    VPCoutput:
+        Value: !Ref VPC
+        Export:
+          Name: raise-lecture10-vpc-id
+    PublicSubnet1aOutput:
+        Value: !Ref PublicSubnet1a
+        Export:
+            Name: raise-lecture10-publicSubnet1a-id
+    PublicSubnet1cOutput:
+        Value: !Ref PublicSubnet1c
+        Export:
+            Name: raise-lecture10-publicSubnet1c-id
+    PrivateSubnet1aOutput:
+        Value: !Ref PrivateSubnet1a
+        Export:
+            Name: raise-lecture10-privateSubnet1a-id
+    PrivateSubnet1cOutput:
+        Value: !Ref PrivateSubnet1c
+        Export:
+            Name: raise-lecture10-privateSubnet1c-id
+    PublicRouteTableOutput:
+        Value: !Ref PublicRouteTable
+        Export:
+            Name: raise-lecture10-PublicRouteTable-id
+    PrivateRouteTableOutput:
+        Value: !Ref PrivateRouteTable
+        Export:
+            Name: raise-lecture10-PrivateRouteTable-id
