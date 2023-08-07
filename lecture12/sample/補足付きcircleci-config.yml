@@ -1,0 +1,20 @@
+version: 2.1
+# ↑circleciにとっての記述方法のバージョン？
+orbs:
+  # ↓circleciでpython2.0.3のパッケージを利用する。（orbのimportするという作業は必要なさそう）
+  python: circleci/python@2.0.3
+jobs:
+  cfn-lint:
+    executor: python/default
+    steps:
+      - checkout
+      - run: pip install cfn-lint
+      - run:
+          name: run cfn-lint
+          command: |
+            cfn-lint -i W3002 -t cloudformation/*.yml
+
+workflows:
+  raisetech:
+    jobs:
+      - cfn-lint
