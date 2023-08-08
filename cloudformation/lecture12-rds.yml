@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: RDS-template
+Parameters:
+  DBMasterUserPassword:
+    Default: 226651temPra
+    Type: String
+    NoEcho: true
+Resources:
+  RDS:
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: raise-lecture10-rds
+      DBInstanceClass: db.t2.micro
+      Engine: mysql
+      EngineVersion: 8.0.32
+      MasterUsername: admin
+      MasterUserPassword: !Ref DBMasterUserPassword
+      DBName: raisetech_live8_sample_app_development
+      BackupRetentionPeriod: 1
+      MultiAZ: false
+      PubliclyAccessible: false
+      StorageType: gp2
+      AllocatedStorage: 20
+      StorageEncrypted: false
+      CopyTagsToSnapshot: false
+      DeletionProtection: false
+      DeleteAutomatedBackups: true
+      DBSubnetGroupName: !Ref RDSSubnetGroup
+      VPCSecurityGroups:
+      - !Ref sgrds
+      Tags:
+      - Key: Name
+        Value: raise-lecture10-rds
+  sgrds:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: raise-lecture10-sg-rds
+      GroupDescription: sgrds
+      VpcId: !ImportValue raise-lecture10-vpc-id
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !ImportValue raise-lecture10-sg-ec2-id
+      Tags:
+        - Key: Name
+          Value: raise-lecture10-sg-rds
+  RDSSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: dedicated to cloudformationRDS
+      DBSubnetGroupName: rds-subnetgroup
+      SubnetIds:
+      - !ImportValue raise-lecture10-privateSubnet1a-id
+      - !ImportValue raise-lecture10-privateSubnet1c-id
+      Tags:
+      - Key: Name
+        Value: raise-lecture10-rds-subnet-group
+Outputs:
+    RDSoutput:
+        Value: !Ref RDS
+        Export:
+          Name: raise-lecture10-rds-id
+    sgrdsoutput:
+        Value: !Ref sgrds
+        Export:
+          Name: raise-lecture10-sg-rds-id
+    RDSSubnetGroupoutput:
+        Value: !Ref RDSSubnetGroup
+        Export:
+          Name: raise-lecture10-subnetgroup-id
