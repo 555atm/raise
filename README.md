@@ -12,8 +12,8 @@
 |lecture08|Web構築コーディング(前半)|  |  
 |lecture09|Web構築コーディング(後半)|  |  
 |lecture10|CloudFormaiton|  |  
-|lecture11| |  |  
-|lecture12| |  |  
+|lecture11|serverspec | serverspecを動かす |  
+|lecture12|CircleCI |CircleCIの導入  |  
 |lecture13| |  |  
 |lecture14| |  |  
 |lecture15| |  |  
