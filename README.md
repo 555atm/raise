@@ -8,8 +8,8 @@ RaiseTech　AWSコース課題提出用リポジトリ
 | 講義番号 | 学習概要 | 詳細 | 提出物| 
 | :--- | :--- | :--- |  :--- |  
 |lecture01|AWS初期設定、IAM の推奨設定|-  |なし|  
-|lecture02|バージョン管理システム| SVN, Git, GitHub |lecture02.md|
-|lecture03|Cloud9、Webアプリケーション構築| RailsサンプルアプリをCloud9環境で動作させる |lecture03.md|
+|lecture02|バージョン管理システム| SVN, Git, GitHub |[lecture02.md](lecture02.md)|
+|lecture03|Cloud9、Webアプリケーション構築| RailsサンプルアプリをCloud9環境で動作させる |[lecture03.md](./lecture03/lecture03.md)|
 |lecture04|EC2＋RDS構築| ポートフォワーディングでRDSログインまで |lecture04.md|
 |lecture05|ALB＋EC2(nginx+unicorn)+RDS+S3構築|  |lecture05.md|
 |lecture06|CloudWatch、AWS見積もり| ログ関連サービスの学習<br>CloudWatchアラームでALBヘルスチェック状態変化を検知→SNSでメール通知<br> |lecture06.md|
