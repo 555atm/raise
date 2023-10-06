@@ -5,13 +5,14 @@ RaiseTech　AWSコース課題提出用リポジトリ
 
 ## 各講座の学習内容と提出物
 
-| 講義番号 | 学習概要 | 詳細 | 提出物| 
+| 講義番号 | 学習内容 | 課題概要 | 提出物| 
 | :--- | :--- | :--- |  :--- |  
-|lecture01|AWS初期設定、IAM の推奨設定|-  |なし|  
-|lecture02|バージョン管理システム| SVN, Git, GitHub |[lecture02.md](lecture02.md)|
-|lecture03|Cloud9、Webアプリケーション構築| RailsサンプルアプリをCloud9環境で動作させる |[lecture03.md](./lecture03/lecture03.md)|
-|lecture04|EC2＋RDS構築| ポートフォワーディングでRDSログインまで |[lecture04.md](./lecture04/lecture04.md)|
-|lecture05|ALB＋EC2(nginx+unicorn)+RDS+S3構築|  |[lecture05.md](./lecture05/lecture05.md)|
+|lecture01|AWSアカウント作成、Day1対応（初期設定、IAMの推奨設定）、Cloud9の作成|-  |なし|  
+|lecture02|バージョン管理システム（SVN, Git, GitHub）|GiHubアカウント作成,Git設定,PullRequestで課題提出  |[lecture02.md](lecture02.md)|
+|lecture03|サンプルアプリケーションのデプロイ / APサーバー、DBサーバー、Railsの構成管理ツールについて| Cloud9でRailsサンプルアプリをデプロイ、動作させる |[lecture03.md](./lecture03/lecture03.md)|
+|lecture04|VPC,EC2,RDSの作成| AWS上にVPC、EC2、RDS作成する。<br>ポートフォワーディングしてRDSログインまで行う。 |[lecture04.md](./lecture04/lecture04.md)|
+
+|lecture05|ELB、EC2のWEBアプリ環境構築、S3、構成図作成|ALB＋EC2(nginx+unicorn)+RDS+S3を作成してWEBアプリを動作させる<br>構成図の作成  |[lecture05.md](./lecture05/lecture05.md)|
 |lecture06|CloudWatch、AWS見積もり| ログ関連サービスの学習<br>CloudWatchアラームでALBヘルスチェック状態変化を検知→SNSでメール通知<br> |[lecture06.md](./lecture06/lecture06.md)|
 |lecture07|セキュリティー対策　脆弱性| AWSのセキュリティ |[lecture07.md](./lecture07/lecture07.md)|
 |lecture08|Web構築コーディング(前半)|  |なし|
