@@ -399,3 +399,5 @@ webアプリが動くようになる。
 　　紹介内容は　Zabbix構築、WindowsServer構築、NW機器操作、  
 　　　クラウド連携、あとAWS(Ansible　Tower）について、　などなど  
 　　　　　②の本とはまた違うカバー範囲だと思われる。  
+
+
