@@ -39,6 +39,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - 0f:d8:ae:47:5e:80:6c:35:9e:70:2e:2c:28:fe:a4:29
+
       - run:
           name: Copy SSH Config
           command: cp sshconfig/config ~/.ssh/
