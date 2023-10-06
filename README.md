@@ -13,7 +13,6 @@ RaiseTech　AWSコース課題提出用リポジトリ
 |第4回|VPC,EC2,RDSの作成| AWS上にVPC、EC2、RDS作成する。<br>ポートフォワーディングしてRDSログインまで行う。 |[lecture04.md](./lecture04/lecture04.md)|
 |第5回|ELB、EC2のWEBアプリ環境構築、S3、構成図作成|ALB＋EC2(nginx+unicorn)+RDS+S3を作成してWEBアプリを動作させる<br>構成図の作成  |[lecture05.md](./lecture05/lecture05.md)|
 |第6回|ログ・アラーム関連サービスの学習、コスト管理（見積、請求書）| CloudWatchアラームでALBヘルスチェック状態変化を検知→SNSでメール通知<br> |[lecture06.md](./lecture06/lecture06.md)|
-
 |第7回|セキュリティー対策　脆弱性| AWSのセキュリティについて |[lecture07.md](./lecture07/lecture07.md)|
 |第8回|Web構築コーディング(前半)|第５回課題の参考 |-|
 |第9回|Web構築コーディング(後半)|第５回課題の参考 |-|
@@ -23,10 +22,10 @@ RaiseTech　AWSコース課題提出用リポジトリ
 |第13回|インフラの自動化(総合) CicrleCI ＋CloudFormation + Ancible +serverspec |  |[lecture13-14.md](./lecture13-14/lecture13-14.md)|
 |第14回|最終の構成図 |最終的な構成図を作成  |[lecture13-14.md](./lecture13-14/lecture13-14.md)|
 |第15回|インフラ自動化の参考|第５回課題の参考 |-|
+|第16回|エンジニアや現場での心構え|エンジニアや現場での心構え |-|
 
 ## 付録
 ▼AWS無料枠の料金
-
 |対象 | 内容 |
 | :--- |:---|
 |EC2 |  t2.micro または t3.micro インスタンスを 750 時間/月まで
