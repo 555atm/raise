@@ -1,0 +1,145 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Cfn-lecture template for EC2
+
+Parameters:
+  Project:
+    Type: String
+    Default: cfn-lecture
+  VPCStackName:
+    Type: String
+    Default: cfn-lecture-vpc
+  EC2AMI:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+  # SSHCidrIp:
+  #   Type: String
+  #   Default: 10.0.0.0/16
+
+Resources:
+# ------------------------------------------------------------#
+#  KeyPair
+# ------------------------------------------------------------#
+  NewKeyPair:
+    Type: 'AWS::EC2::KeyPair'
+    Properties:
+      KeyName: !Sub ${Project}-keypair
+
+# ------------------------------------------------------------#
+#  SecurityGroup
+# ------------------------------------------------------------#
+  WebSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties: 
+      GroupDescription: !Sub ${Project}-sg-web created
+      GroupName: !Sub ${Project}-sg-web
+      VpcId:
+        Fn::ImportValue: !Sub ${VPCStackName}-VPCID
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 3000
+          ToPort: 3000
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          # CidrIp: !Ref SSHCidrIp
+          CidrIp: 0.0.0.0/0
+
+
+# ------------------------------------------------------------#
+#  IAM
+# ------------------------------------------------------------#
+
+# EC2にIAMロールを設定（AssumeRoleで権限引き上げだけ行う）
+  S3AccessRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              Service: 
+                - "ec2.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"
+      Path: "/"
+  # 特定のS3バケットにアクセス可能なIAMポリシーを設定
+  S3AccessPolicies:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: s3access
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action:
+            - "s3:ListAllMyBuckets"
+            - "s3:GetBucketLocation"
+          Resource: "arn:aws:s3:::*"
+        - Effect: Allow
+          Action: "*"
+          Resource:
+            - "arn:aws:s3:::cfn-lecture-s3"
+            - "arn:aws:s3:::cfn-lecture-s3/*"
+            # - !Sub "arn:aws:s3:::${cfn-lecture}-s3"
+            # - !Sub "arn:aws:s3:::${cfn-lecture}-s3/*"
+      Roles:
+      - !Ref S3AccessRole
+  # EC2インスタンスとロールを紐づけるために、IAMインスタンスプロファイルを使う
+  S3AccessInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/"
+      Roles:
+      - !Ref S3AccessRole
+
+
+# ------------------------------------------------------------#
+#  EC2
+# ------------------------------------------------------------#
+  EC2WebServer01:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref EC2AMI
+      InstanceType: t2.micro
+      KeyName: !Ref NewKeyPair
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          GroupSet:
+           - !Ref WebSecurityGroup
+          SubnetId: 
+            Fn::ImportValue: !Sub ${VPCStackName}-PublicSubnet1
+      BlockDeviceMappings: 
+        - DeviceName: "/dev/xvda"
+          Ebs: 
+            VolumeSize: 8
+            VolumeType: "gp2"
+      # EC2インスタンスとロールを紐づけるために、IAMインスタンスプロファイルを使う
+      IamInstanceProfile: !Ref S3AccessInstanceProfile
+      Tags:
+        - Key: Name
+          Value: !Sub ${Project}-web
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          sudo yum update -y
+          sed -i '/#ClientAliveInterval 0/a ClientAliveInterval 120' /etc/ssh/sshd_config
+          sed -i '/#ClientAliveCountMax 3/a ClientAliveCountMax 3' /etc/ssh/sshd_config
+          systemctl restart sshd
+          sudo yum install ImageMagick
+Outputs:
+  EC2WebServer01:
+    Value: !Ref EC2WebServer01
+    Export:
+      Name: !Sub ${AWS::StackName}-EC2WebServer01
+  WebSecurityGroup:
+    Value: !Ref WebSecurityGroup
+    Export:
+      Name: !Sub ${AWS::StackName}-WebSecurityGroup

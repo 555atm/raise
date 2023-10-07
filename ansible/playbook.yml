@@ -1,0 +1,24 @@
+
+- hosts:
+    - web-server
+  become: True
+  become_user: ec2-user
+  roles:
+    - 01_yum
+    - 02_ruby
+    - 03_bundler
+    - 04_rails
+    - 05_node
+    - 06_yarn
+    - 07_app
+    - 08_mysql
+    - 09_DB_migration
+    - 10_nginx
+  vars: 
+    sample_app_dir: /var/www/raisetech-live8-sample-app
+    aws_db_user: "{{ (lookup('env','AWS_DB_USER')) }}"
+    aws_db_pw : "{{ (lookup('env','AWS_DB_PW')) }}"
+    aws_db_host : "{{ (lookup('env','AWS_DB_HOST')) }}"
+    # aws_s3_access_key : "{{ (lookup('env','AWS_S3_ACCESS_KEY')) }}"
+    # aws_s3_secret_access_key: "{{ (lookup('env','AWS_S3_SECRET_ACCESS_KEY')) }}"
+    aws_s3_bucket: "{{ (lookup('env','AWS_S3_BUCKET')) }}"

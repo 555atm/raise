@@ -1,0 +1,10 @@
+---
+- name: rails db:create
+  shell: bash -lc "bin/rails db:create"
+  args: 
+    chdir: "{{ sample_app_dir }}"
+
+- name: rails db:migrate
+  shell: bash -lc "bin/rails db:migrate"
+  args: 
+    chdir: "{{ sample_app_dir }}"

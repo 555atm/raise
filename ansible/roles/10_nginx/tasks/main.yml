@@ -1,0 +1,40 @@
+---
+- name: rails db:create
+  shell: bash -lc "bin/rails db:create"
+  args: 
+    chdir: "{{ sample_app_dir }}"
+
+- name: rails db:migrate
+  shell: bash -lc "bin/rails db:migrate"
+  args: 
+    chdir: "{{ sample_app_dir }}"
+
+- name: check nginx install
+  shell: bash -lc "nginx -v"
+  register: nginx_installed
+  changed_when: no
+  ignore_errors: yes
+
+- name: nginx install
+  become_user: root
+  shell: bash -lc "amazon-linux-extras install -y nginx1"
+  when: nginx_installed is failed
+
+- name: create rails.conf
+  become_user: root
+  template:
+    src: rails.conf.j2
+    dest: "/etc/nginx/conf.d/rails.conf"
+
+- name: start nginx service
+  become_user: root
+  service:
+    name: nginx
+    state: started
+  register: nginx_started
+
+- name: start unicorn
+  shell: bash -lc "bundle exec unicorn_rails -c config/unicorn.rb -E development -D"
+  args: 
+    chdir: "{{ sample_app_dir }}"
+  when: nginx_started.changed

@@ -1,6 +1,11 @@
 version: 2.1
+
 orbs:
   python: circleci/python@2.0.3
+  aws-cli: circleci/aws-cli@3.1.5
+  ansible: orbss/ansible-playbook@0.0.5
+  ruby: circleci/ruby@2.0.0
+
 jobs:
   cfn-lint:
     executor: python/default
@@ -12,7 +17,72 @@ jobs:
           command: |
             cfn-lint -i W3002 -t cloudformation/*.yml
 
+  cfn-execute:
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-region: AWS_DEFAULT_REGION
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      - run: aws cloudformation deploy --template-file cloudformation/lecture13-vpc.yml --stack-name cfn-lecture-vpc
+      - run: aws cloudformation deploy --template-file cloudformation/lecture13-ec2.yml --stack-name cfn-lecture-ec2 --capabilities CAPABILITY_IAM
+      # - run: aws cloudformation deploy --template-file cloudformation/lecture13-ec2-takasan.yml --stack-name cfn-lecture-ec2 --parameter-overrides SSHCidrIp="${AWS_SSH_MY_IP}"
+      - run: aws cloudformation deploy --template-file cloudformation/lecture13-rds.yml --stack-name cfn-lecture-rds --parameter-overrides DBPassword="${AWS_DB_PW}"
+      - run: aws cloudformation deploy --template-file cloudformation/lecture13-alb.yml --stack-name cfn-lecture-elb
+      - run: aws cloudformation deploy --template-file cloudformation/lecture13-s3.yml --stack-name cfn-lecture-s3
+
+  ansible-execute:
+    executor: ansible/default
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - 0f:d8:ae:47:5e:80:6c:35:9e:70:2e:2c:28:fe:a4:29
+
+      - run:
+          name: Copy SSH Config
+          command: cp sshconfig/config ~/.ssh/
+      - ansible/install:
+          version: 2.9.23
+      - ansible/playbook:
+          playbook: ansible/playbook.yml
+          playbook-options: "-i ansible/inventory"
+          # playbook-options: '-u ec2-user -i ansible/inventory --private-key ../../keypair/CFnKeyPair.pem'
+
+  serverspec-execute:
+    docker:
+      - image: cimg/ruby:2.7-node
+    steps:
+      - checkout
+      - run:
+          name: Copy SSH Config
+          command: cp sshconfig/config ~/.ssh/
+      - run:
+          name: Copy serverspec file
+          command: cp -r serverspec ~/serverspec
+      - run:
+          name: bundle install
+          command: |
+            cd serverspec
+            gem list -e rails
+            bundle install --path vendor/bundle
+      - run:
+          name: execute
+          command: |
+            cd serverspec
+            bundle exec rake spec
+
 workflows:
   raisetech:
     jobs:
       - cfn-lint
+      - cfn-execute:
+          requires:
+            - cfn-lint
+      - ansible-execute:
+          requires:
+            - cfn-execute
+      - serverspec-execute:
+          requires:
+            - ansible-execute

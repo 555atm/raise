@@ -1,0 +1,10 @@
+---
+- name: check yarn install
+  shell: bash -lc "yarn --version | grep {{ yarn_version }}"
+  register: yarn_installed
+  changed_when: no
+  ignore_errors: yes
+
+- name: yarn install
+  shell: bash -lc "npm install --global yarn@{{ yarn_version }}"
+  when: yarn_installed is failed
