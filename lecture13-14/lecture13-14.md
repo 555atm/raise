@@ -338,7 +338,6 @@ webアプリが動くようになる。
 - 第5回課題で作成したAWS構成図に自動化処理の図を追加する
 ![diagram-13.png](./files/diagram-13.png)
 
-
 # リポジトリのREADMEを作成する
 
 [README.md](../README.md)

@@ -5,10 +5,10 @@ Parameters:
   Project:
     Type: String
     Default: cfn-lecture
-  VPCStack:
+  VPCStackName:
     Type: String
     Default: cfn-lecture-vpc
-  EC2Stack:
+  EC2StackName:
     Type: String
     Default: cfn-lecture-ec2
   DBUser:

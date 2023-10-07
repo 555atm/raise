@@ -5,7 +5,7 @@ Parameters:
   Project:
     Type: String
     Default: cfn-lecture
-  VPCStack:
+  VPCStackName:
     Type: String
     Default: cfn-lecture-vpc
   EC2AMI:
