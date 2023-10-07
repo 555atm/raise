@@ -31,8 +31,8 @@ Resources:
     Properties: 
       DBSubnetGroupDescription: DB Subnet Group for Private Subnet
       SubnetIds: 
-        - Fn::ImportValue: !Sub ${VPCStack}-PrivateSubnet1
-        - Fn::ImportValue: !Sub ${VPCStack}-PrivateSubnet2
+        - Fn::ImportValue: !Sub ${VPCStackName}-PrivateSubnet1
+        - Fn::ImportValue: !Sub ${VPCStackName}-PrivateSubnet2
 
 # ------------------------------------------------------------#
 #  SecurityGroup
@@ -43,13 +43,13 @@ Resources:
       GroupDescription: Created by CFn
       GroupName: !Sub ${Project}-sg-db
       VpcId:
-        Fn::ImportValue: !Sub ${VPCStack}-VPCID
+        Fn::ImportValue: !Sub ${VPCStackName}-VPCID
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
           SourceSecurityGroupId: 
-            Fn::ImportValue: !Sub ${EC2Stack}-WebSecurityGroup
+            Fn::ImportValue: !Sub ${EC2StackName}-WebSecurityGroup
 
 # ------------------------------------------------------------#
 #  RDS

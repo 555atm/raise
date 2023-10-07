@@ -33,7 +33,7 @@ Resources:
       GroupDescription: !Sub ${Project}-sg-web created
       GroupName: !Sub ${Project}-sg-web
       VpcId:
-        Fn::ImportValue: !Sub ${VPCStack}-VPCID
+        Fn::ImportValue: !Sub ${VPCStackName}-VPCID
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -115,7 +115,7 @@ Resources:
           GroupSet:
            - !Ref WebSecurityGroup
           SubnetId: 
-            Fn::ImportValue: !Sub ${VPCStack}-PublicSubnet1
+            Fn::ImportValue: !Sub ${VPCStackName}-PublicSubnet1
       BlockDeviceMappings: 
         - DeviceName: "/dev/xvda"
           Ebs: 

@@ -21,7 +21,7 @@ Resources:
     Properties: 
       GroupDescription: !Ref AWS::StackName
       VpcId:
-        Fn::ImportValue: !Sub ${VPCStack}-VPCID
+        Fn::ImportValue: !Sub ${VPCStackName}-VPCID
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -38,8 +38,8 @@ Resources:
       Scheme: internet-facing
       IpAddressType: ipv4
       Subnets:
-        - Fn::ImportValue: !Sub ${VPCStack}-PublicSubnet1
-        - Fn::ImportValue: !Sub ${VPCStack}-PublicSubnet2
+        - Fn::ImportValue: !Sub ${VPCStackName}-PublicSubnet1
+        - Fn::ImportValue: !Sub ${VPCStackName}-PublicSubnet2
       SecurityGroups: 
         - !Ref LBSecurityGroup
 
@@ -51,13 +51,13 @@ Resources:
       Protocol: HTTP
       Port: 80
       VpcId:
-        Fn::ImportValue: !Sub ${VPCStack}-VPCID
+        Fn::ImportValue: !Sub ${VPCStackName}-VPCID
       ProtocolVersion: HTTP1
       HealthCheckProtocol: HTTP
       HealthCheckPath: /
       Targets:
         - Id:
-            Fn::ImportValue: !Sub ${EC2Stack}-EC2WebServer01
+            Fn::ImportValue: !Sub ${EC2StackName}-EC2WebServer01
 
   FrontLBListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
