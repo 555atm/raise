@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: RDS-template
 Parameters:
   DBMasterUserPassword:
-    Default: 226651temPra
+    Default: nnnnnntemXxx
     Type: String
     NoEcho: true
 Resources:
